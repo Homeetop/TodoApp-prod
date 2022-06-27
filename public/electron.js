@@ -1,8 +1,6 @@
 require("./db/dbconn");
-const { app, autoUpdater, dialog } = require("electron");
-
-const { BrowserWindow } = electron;
-
+const { app, autoUpdater, dialog, BrowserWindow } = require("electron");
+const nativeImage = require("electron").nativeImage;
 const path = require("path");
 const isDev = require("electron-is-dev");
 
