@@ -2,6 +2,8 @@
   "name": "8-todo-app",
   "version": "1.0.0",
   "main": "public/electron.js",
+  "author": "topsoft",
+  "description": "A simple todo app",
   "homepage": "./",
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
@@ -67,10 +69,9 @@
     },
     "linux": {
       "target": [
-        "deb",
-        "rpm",
         "AppImage"
       ],
+      "icon": "assets/todoAppLogo.png",
       "category": "Development",
       "maintainer": "cloud.omnix@gmail.com"
     }
