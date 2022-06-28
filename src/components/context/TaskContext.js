@@ -5,9 +5,9 @@ import { save, lookUP, erase, saveChanges } from "../../model/crud";
 const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
-
   const [tasks, setTasks] = useState([]);
   const [doneTaskList, setDoneTask] = useState([]);
+  const [pendingTaskList, setPendingTask] = useState([]);
   const [PopUp, setPopUp] = useState({ in: false, item: null });
 
   //function to add tasks
@@ -19,7 +19,6 @@ export const TaskProvider = ({ children }) => {
     };
     save(`'${newTask.topic}', '${newTask.content}', ${newTask.isDone}`);
   };
-
 
   useEffect(() => {
     lookUP().then((res) => {
@@ -38,10 +37,11 @@ export const TaskProvider = ({ children }) => {
 
   useEffect(() => {
     const alldoneTask = tasks.filter((task) => task.isDone == "true");
+    const pendingTask = tasks.filter((task) => task.isDone == "0");
     setDoneTask(alldoneTask);
+    setPendingTask(pendingTask);
   }, [tasks]);
 
-  
   const deleteTask = (id) => {
     erase(id);
     const newTask = tasks.filter((task) => task.id !== id);
@@ -63,10 +63,7 @@ export const TaskProvider = ({ children }) => {
     setPopUp({ in: !PopUp.in, item: tasks[index] });
   };
   const editTask = (text) => {
-    saveChanges(
-      `topic = '${text.topic}',content = '${text.content}'`,
-      PopUp.item.id
-    );
+    saveChanges(`topic = '${text.topic}',content = '${text.content}'`, PopUp.item.id);
     const newTask = [...tasks];
     const index = newTask.findIndex((task) => task.id === PopUp.item.id);
     newTask[index].topic = text.topic;
@@ -86,6 +83,7 @@ export const TaskProvider = ({ children }) => {
         deleteAll,
         editTask,
         doneTaskList,
+        pendingTaskList,
       }}
     >
       {children}
