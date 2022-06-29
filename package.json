@@ -1,13 +1,13 @@
 {
-  "name": "8-todo-app",
-  "version": "0.1.0",
+  "name": "topz-todo-app",
+  "version": "0.0.1",
   "main": "public/electron.js",
   "author": "topsoft",
   "description": "A simple todo app",
   "homepage": "./",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Homeetop/TodoAppUpdate-server"
+    "url": "https://github.com/Homeetop/TodoAppUpdate-server.git"
   },
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
@@ -93,7 +93,7 @@
     }
   },
   "updater": {
-    "url": "https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json"
+    "url": "https://raw.githubusercontent.com/Homeetop/TodoApp-prod-/main/updates.json"
   },
   "private": true,
   "dependencies": {
