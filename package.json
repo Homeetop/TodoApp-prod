@@ -1,6 +1,6 @@
 {
   "name": "topz-todo-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "public/electron.js",
   "author": "topsoft",
   "description": "A simple todo app",
