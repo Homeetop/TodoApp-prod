@@ -1,0 +1,7 @@
+{
+  "transport": {
+    "module": "github",
+    "token": "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",
+    "updatesJsonPath": "TodoApp-prod-/updates.json"
+  }
+}

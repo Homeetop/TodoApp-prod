@@ -1,5 +1,6 @@
 require("./db/dbconn");
-const { app, autoUpdater, dialog, BrowserWindow } = require("electron");
+const { app, dialog, BrowserWindow } = require("electron");
+// const { autoUpdater } = require("electron-updater");
 const nativeImage = require("electron").nativeImage;
 const path = require("path");
 const isDev = require("electron-is-dev");
@@ -38,18 +39,35 @@ app.on("activate", () => {
 });
 
 if (!isDev) {
-  // setup update feed
-  const server = "https://vercel.com";
-  const url = `${server}/update/${process.platform}/${app.getVersion()}`;
-  autoUpdater.setFeedURL({ url });
+  //init update
+  const updater = require("electron-simple-updater");
+
+  updater.init({
+    checkUpdateOnStart: false,
+    autoDownload: false,
+  });
 
   // check for update every minute
   setInterval(() => {
-    autoUpdater.checkForUpdates();
+    updater.checkForUpdates();
+    updater.on("update-available", onUpdateAvailable);
   }, 60000);
 
+  const onUpdateAvailable = (meta) => {
+    const dialogOpts = {
+      type: "info",
+      buttons: ["Yes", "No"],
+      title: "Application Update",
+      message: process.platform === "win32" ? releaseNotes : releaseName,
+      detail: `An update version ${meta.version} is available!!!, \n Do you want to download?`,
+    };
+
+    dialog.showMessageBox(dialogOpts).then((returnValue) => {
+      if (returnValue.response === 0) updater.downloadUpdate();
+    });
+  };
   // Notification for user
-  autoUpdater.on("update-downloaded", (event, releaseNotes, releaseName) => {
+  updater.on("update-downloaded", (event, releaseNotes, releaseName) => {
     const dialogOpts = {
       type: "info",
       buttons: ["Restart", "Later"],
@@ -59,12 +77,12 @@ if (!isDev) {
     };
 
     dialog.showMessageBox(dialogOpts).then((returnValue) => {
-      if (returnValue.response === 0) autoUpdater.quitAndInstall();
+      if (returnValue.response === 0) updater.quitAndInstall();
     });
   });
 
   // check for error in updating
-  autoUpdater.on("error", (message) => {
+  updater.on("error", (message) => {
     console.error("There was a problem updating the application");
     console.error(message);
   });

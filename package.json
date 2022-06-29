@@ -1,10 +1,14 @@
 {
   "name": "8-todo-app",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "public/electron.js",
   "author": "topsoft",
   "description": "A simple todo app",
   "homepage": "./",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Homeetop/TodoAppUpdate-server"
+  },
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "start:nodemon": "nodemon --watch public/electron.js --exec npm start",
@@ -14,7 +18,7 @@
     "react-eject": "react-scripts eject",
     "postinstall": "electron-builder install-app-deps",
     "electron-build": "electron-builder",
-    "build": "npm run react-build && npm run electron-build",
+    "build": "npm run react-build && npm run electron-build publish",
     "electron-start": "electron .",
     "make:linux": "electron-builder --linux",
     "make:macos": "electron-builder --mac",
@@ -27,6 +31,9 @@
       "db/**/**",
       "assets/**/*",
       "node_modules/**/**",
+      "!publisher.json",
+      "!README.md",
+      "!updates.json",
       "package.json"
     ],
     "directories": {
@@ -44,6 +51,9 @@
     "mac": {
       "category": "public.app-category.developer-tools",
       "icon": "assets/todoAppLogo.icns",
+      "publish": [
+        "github"
+      ],
       "hardenedRuntime": true,
       "gatekeeperAssess": false
     },
@@ -65,16 +75,25 @@
       "icon": "assets/todoAppLogo.png",
       "target": [
         "nsis"
+      ],
+      "publish": [
+        "github"
       ]
     },
     "linux": {
       "target": [
         "AppImage"
       ],
+      "publish": [
+        "github"
+      ],
       "icon": "assets/todoAppLogo.png",
       "category": "Development",
       "maintainer": "cloud.omnix@gmail.com"
     }
+  },
+  "updater": {
+    "url": "https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json"
   },
   "private": true,
   "dependencies": {
@@ -84,6 +103,7 @@
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
     "electron-is-dev": "^2.0.0",
+    "electron-simple-updater": "^2.0.11",
     "framer-motion": "^6.2.6",
     "nodemon": "^2.0.16",
     "postinstall": "^0.7.4",
