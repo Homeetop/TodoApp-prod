@@ -7,7 +7,7 @@
   "homepage": "./",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Homeetop/TodoAppUpdate-server.git"
+    "url": "git+https://github.com/Homeetop/TodoAppUpdate-server.git"
   },
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
