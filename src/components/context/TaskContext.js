@@ -17,10 +17,9 @@ export const TaskProvider = ({ children }) => {
       topic,
       content,
     };
-    save(`'${newTask.topic}', '${newTask.content}', ${newTask.isDone}`);
+    save(`'${newTask.topic}', '${newTask.content}', ${newTask.isDone}`).then(() => fetchTasks());
   };
-
-  useEffect(() => {
+  const fetchTasks = () => {
     lookUP().then((res) => {
       const arr = [];
       res.map((item) =>
@@ -31,11 +30,14 @@ export const TaskProvider = ({ children }) => {
           isDone: item.isDone,
         })
       );
-      setTasks(arr);
+      setTasks([...arr]);
     });
-  }, []);
+  };
+
+  useEffect(() => fetchTasks(), []);
 
   useEffect(() => {
+    console.log(tasks);
     const alldoneTask = tasks.filter((task) => task.isDone == "true");
     const pendingTask = tasks.filter((task) => task.isDone == "0");
     setDoneTask(alldoneTask);

@@ -8,9 +8,12 @@ import "./Tasks.css";
 const Tasks = () => {
   const [all, setAll] = useState(true);
   const [taskStatus, setStatus] = useState(true);
-  const { tasks, doneTaskList, deleteAll, pendingTaskList } = useContext(TaskContext);
+  const { tasks, fetchTasks, doneTaskList, deleteAll, pendingTaskList } = useContext(TaskContext);
 
-  console.log(pendingTaskList, tasks, doneTaskList);
+  // console.log(pendingTaskList, tasks, doneTaskList);
+  // useEffect(() => {
+  //   fetchTasks();
+  // }, [tasks]);
   //for change in tasks
   const handlechange = (e) => {
     if (e.target.dataset.category === "all") {

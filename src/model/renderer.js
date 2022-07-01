@@ -1,5 +1,5 @@
 const electron = window.require("electron");
-const { ipcRenderer } = electron;
+const { ipcRenderer, remote } = electron;
 
 export default function send(message) {
   return new Promise((resolve) => {

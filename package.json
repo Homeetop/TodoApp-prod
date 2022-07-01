@@ -1,14 +1,10 @@
 {
   "name": "topz-todo-app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "public/electron.js",
   "author": "topsoft",
   "description": "A simple todo app",
   "homepage": "./",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Homeetop/TodoAppUpdate-server.git"
-  },
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "start:nodemon": "nodemon --watch public/electron.js --exec npm start",
@@ -18,7 +14,7 @@
     "react-eject": "react-scripts eject",
     "postinstall": "electron-builder install-app-deps",
     "electron-build": "electron-builder",
-    "publish": "publish",
+    "publish": "npm run react-build && electron-builder -p always",
     "build": "npm run react-build && npm run electron-build",
     "build:publish": "npm run build && npm run publish",
     "electron-start": "electron .",
@@ -27,7 +23,7 @@
     "make:win": " electron-builder --win --x64"
   },
   "build": {
-    "appId": "omnix.apps",
+    "appId": "com.topsoft.topz-todo-app",
     "files": [
       "build/**/**",
       "db/**/**",
@@ -37,6 +33,15 @@
       "!README.md",
       "!updates.json",
       "package.json"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "private": true,
+        "owner": "Homeetop",
+        "repo": "TodoApp-prod-",
+        "token": "<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>"
+      }
     ],
     "directories": {
       "buildResources": "assets"
@@ -53,9 +58,6 @@
     "mac": {
       "category": "public.app-category.developer-tools",
       "icon": "assets/todoAppLogo.icns",
-      "publish": [
-        "github"
-      ],
       "hardenedRuntime": true,
       "gatekeeperAssess": false
     },
@@ -77,17 +79,11 @@
       "icon": "assets/todoAppLogo.png",
       "target": [
         "nsis"
-      ],
-      "publish": [
-        "github"
       ]
     },
     "linux": {
       "target": [
         "AppImage"
-      ],
-      "publish": [
-        "github"
       ],
       "icon": "assets/todoAppLogo.png",
       "category": "Development",
@@ -95,7 +91,7 @@
     }
   },
   "updater": {
-    "url": "https://raw.githubusercontent.com/Homeetop/TodoApp-prod-/main/updates.json"
+    "url": "https://raw.githubusercontent.com/Homeetop/TodoAppUpdate-server/main/updates/linux-x64-prod.json"
   },
   "private": true,
   "dependencies": {
@@ -105,7 +101,9 @@
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
     "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.4.8",
     "electron-simple-updater": "^2.0.11",
+    "electron-updater": "^5.0.5",
     "framer-motion": "^6.2.6",
     "nodemon": "^2.0.16",
     "postinstall": "^0.7.4",

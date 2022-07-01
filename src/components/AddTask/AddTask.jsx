@@ -17,6 +17,7 @@ const AddTask = () => {
     setText({ topic: "", content: "" });
     if (text.topic.trim() !== "" && text.content.trim() !== "") {
       addTasks(text.topic, text.content);
+      
     } else {
       errorMessage();
     }
