@@ -25,7 +25,7 @@ function createWindow() {
     mainWindow = null;
   });
 }
-
+autoUpdater.updateConfigPath = path.join(__dirname, "dev-app-update.yml");
 // app.on("ready",createWindow );
 
 app.on("window-all-closed", () => {
@@ -77,7 +77,7 @@ autoUpdater.on("update-downloaded", (ev, info) => {
 
 app.on("ready", function () {
   createWindow();
-  autoUpdater.checkForUpdates();
+  autoUpdater.checkForUpdatesAndNotify();
 });
 
 // // if (!isDev) {
@@ -100,9 +100,9 @@ app.on("ready", function () {
 //   console.log("update downloaded");
 // }
 
-// ipcMain.handle("getVersion", (e, arg) => {
-//   return app.getVersion();
-// });
+ipcMain.handle("getVersion", (e, arg) => {
+  return app.getVersion();
+});
 // updater.on("update-available", onUpdateAvailable);
 // // updater.on("update-downloading", onUpdateDownloading);
 // // updater.on("update-downloaded", onUpdateDownloaded);
